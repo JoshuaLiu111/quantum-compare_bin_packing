@@ -9,7 +9,7 @@ from typing import Dict, Any
 import time
 from utils import read_instance
 
-num_items, num_bins, weights, capacities = read_instance() 
+num_items, weights, num_bins, capacities = read_instance("input/instance_1.csv") 
 
 # Initialise data_dict
 def data_reader() -> dict:
@@ -93,7 +93,7 @@ def cal_solution_cost(instance:pyo.AbstractModel):
 abstract_model = define_model()
 instance = abstract_model.create_instance(data)
 
-opt = pyo.SolverFactory("gurobi")
+opt = pyo.SolverFactory("glpk")
 
 opt.options["tmlim"] = 100
 opt.options["mipgap"] = 0.00001

@@ -7,7 +7,7 @@ Created on Fri May 12 15:40:48 2023
 import time
 from utils import read_instance
 
-num_items, num_bins, weights, capacities = read_instance() 
+num_items, weights, num_bins, capacities = read_instance("input/instance_1.csv")
 
 start_time = time.time()
 sol_package = [[] for j in range(num_bins)]

@@ -16,7 +16,7 @@ from qiskit.algorithms.minimum_eigensolvers import QAOA
 from qiskit.algorithms.optimizers import SPSA
 from utils import read_instance
 
-num_items, num_bins, weights, capacities = read_instance() 
+num_items, weights, num_bins, capacities = read_instance("input/instance_1.csv") 
 
 I = range(num_items)
 J = range(num_bins)

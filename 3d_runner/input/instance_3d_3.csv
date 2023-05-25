@@ -1,0 +1,6 @@
+num_items,40
+item_weights,[3, 4, 4, 5, 4, 4, 5, 5, 3, 3, 4, 5, 4, 4, 3, 5, 5, 3, 3, 4, 4, 4, 5, 5, 4, 5, 4, 5, 4, 5, 4, 3, 5, 3, 3, 5, 3, 5, 5, 3]
+item_dimensions,[array([3, 2, 2]), array([3, 2, 2]), array([2, 2, 3]), array([2, 2, 3]), array([2, 2, 3]), array([2, 3, 3]), array([2, 2, 3]), array([2, 2, 3]), array([2, 2, 2]), array([3, 3, 3]), array([3, 3, 2]), array([2, 2, 2]), array([2, 2, 3]), array([3, 3, 2]), array([3, 2, 2]), array([2, 3, 3]), array([2, 2, 2]), array([3, 2, 2]), array([2, 3, 3]), array([2, 2, 2]), array([2, 2, 2]), array([3, 2, 3]), array([3, 3, 2]), array([2, 3, 2]), array([2, 3, 3]), array([2, 3, 2]), array([3, 2, 2]), array([3, 3, 2]), array([3, 3, 2]), array([2, 3, 2]), array([3, 2, 2]), array([2, 2, 2]), array([2, 2, 2]), array([2, 3, 3]), array([2, 2, 2]), array([2, 3, 2]), array([2, 3, 2]), array([3, 3, 3]), array([3, 3, 3]), array([3, 3, 3])]
+num_bins,3
+capacities,[85, 94, 92]
+bin_dimensions,[array([9, 8, 9]), array([9, 8, 9]), array([8, 9, 8])]
