@@ -176,7 +176,7 @@ def cal_solution_cost(instance:pyo.AbstractModel):
 if __name__ == "__main__":
     '''run the formulation'''
     abstract_model = define_model()
-    data_path = "input/instance_3d_1.csv"
+    data_path = "input/instance_3d_3.csv"
     num_items, weights, item_d, num_bins, capacities, bin_d = read_3d(data_path)
     instance = abstract_model.create_instance({None: data_reader(data_path)})
 
@@ -216,6 +216,6 @@ if __name__ == "__main__":
             bin_size = (bin_d[j][0],bin_d[j][1],bin_d[j][2])
             for i in sol_package[j]:
                 size_list.append((item_d[i][0],item_d[i][1],item_d[i][2]))
-            palletplot(bin_size,sol_pacposition[j],size_list)
+            palletplot(bin_size,sol_pacposition[j],sol_package[j],size_list)
 
     print("Total {} bin used.".format(sum([1 for j in sol_package if j!=[]])))

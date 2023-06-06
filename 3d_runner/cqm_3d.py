@@ -97,7 +97,7 @@ def cqm_solver(instance:str):
     sampler = LeapHybridCQMSampler()     
 
     sampleset = sampler.sample_cqm(cqm,
-                                   time_limit=20)
+                                   time_limit=30)
     sampleset.resolve()  
     feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)  
     if len(feasible_sampleset):      
@@ -136,7 +136,7 @@ if __name__ == "__main__":
         bin_size = (bin_d[b][0],bin_d[b][1],bin_d[b][2])
         for i in sol_pack:
             size_list.append((item_d[i][0],item_d[i][1],item_d[i][2]))
-        palletplot(bin_size,sol_pos,size_list)
+        palletplot(bin_size,sol_pos,sol_pack,size_list)
         
     print("Total {} bin used.".format(len(selected_bins)))
 

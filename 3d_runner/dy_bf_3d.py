@@ -9,6 +9,7 @@ import time
 import numpy as np
 from utils import read_3d
 from visualtool import palletplot
+from animationtool import aniplot
 
 '''prepare'''
 def rank_list(lst:list) -> list:
@@ -133,6 +134,7 @@ def dynamic_bf_solver(instance:str, foreseen_num:int = 5) -> list:
 if __name__ == "__main__":
     
     instance = 'input/instance_3d_1.csv'
+    instance_code = int(instance.split('_')[-1].split('.')[0])
     start_time = time.time()
     sol_package,sol_pacposition = dynamic_bf_solver(instance)
     print("--- %s seconds ---" % (time.time() - start_time))
@@ -143,10 +145,10 @@ if __name__ == "__main__":
             we = sum(weights[i] for i in sol_package[j])
             print("Bin {} has items {} for a total weight of {}.".format(j, sol_package[j], we))
             
-            size_list = []
             bin_size = (bin_d[j][0],bin_d[j][1],bin_d[j][2])
-            for i in sol_package[j]:
-                size_list.append((item_d[i][0],item_d[i][1],item_d[i][2]))
-            palletplot(bin_size,sol_pacposition[j],size_list)
+            size_list = [(item_d[i][0],item_d[i][1],item_d[i][2]) for i in sol_package[j]]
+            palletplot(bin_size,sol_pacposition[j],sol_package[j],size_list)
+            aniplot(bin_size,sol_pacposition[j],sol_package[j],size_list,
+                    f'output/dy_bf_ins_{instance_code}_bin_{j}.mp4')
 
     print("Total {} bin used.".format(sum([1 for j in sol_package if j!=[]])))    

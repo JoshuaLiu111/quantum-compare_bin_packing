@@ -12,8 +12,8 @@ import re
 '''random 1d'''
 def random_gen(num_items:int, num_bins:int) -> dict:
     '''set para'''
-    item_weight_range = [3, 8]
-    bin_capacity_range = [10,15]
+    item_weight_range = [3, 6]
+    bin_capacity_range = [80,100]
     weights = list(np.random.randint(*item_weight_range, num_items))
     capacities = list(np.random.randint(*bin_capacity_range, num_bins))
     
@@ -71,6 +71,6 @@ def read_3d(data_path:str) -> list:
     
 if __name__ == "__main__":
     '''random data'''
-    instance = random_3d(40,3)
+    instance = random_3d(200,20)
     '''write'''
     write_instance(instance,'3d_runner/input/instance_3d_3.csv')
