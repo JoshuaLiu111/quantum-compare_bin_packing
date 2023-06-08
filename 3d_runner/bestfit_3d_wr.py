@@ -22,7 +22,10 @@ def bf_solver(instance:str) -> list:
     sol_package = [[] for j in range(num_bins)]
     sol_pacposition = [[] for j in range(num_bins)]
     used_cap = [0 for j in range(num_bins)]
-    ep_list = [[(0, 0, 0)] for j in range(num_bins)]
+    #extreme points
+    ep_list = [[(0,0,0)] for _ in range(num_bins)]
+    #restart points
+    rp_list = [[(0,0,0)] for _ in range(num_bins)]
     
     '''rank by size'''
     sorted_item_list = sorted(range(num_items), 
@@ -47,7 +50,10 @@ def bf_solver(instance:str) -> list:
             '''get index of the bin with the maximum load into which the item can fit'''
             ranked_list = rank_list(adjusted_gap_space)[:poss_bin]
             indicator = False
-            for k in ranked_list:
+            #ini num
+            num = 0
+            while num < len(ranked_list):
+                k = ranked_list[num]
                 # 3d capacity
                 eps = sorted(ep_list[k], key=lambda ep: (ep[0], ep[1], ep[2]))
                 for ep in eps:
@@ -72,6 +78,7 @@ def bf_solver(instance:str) -> list:
                         indicator = True
                         # record position
                         sol_pacposition[k].append(ep)
+                       
                         # clean eps
                         if eps.count((ep[0] + item_d[sorted_item_list[i]][0], ep[1] + item_d[sorted_item_list[i]][1], ep[2] + item_d[sorted_item_list[i]][2])) < 1:
                             ep_list[k].append((ep[0] + item_d[sorted_item_list[i]][0], ep[1] + item_d[sorted_item_list[i]][1], ep[2] + item_d[sorted_item_list[i]][2]))
@@ -115,7 +122,33 @@ def bf_solver(instance:str) -> list:
                         used_cap[k] += weights[sorted_item_list[i]]
                         break
                 if indicator:
-                    break
+                    num += 999
+                else:
+                    num += 1
+                    if len(ep_list[k]) != 1:
+                        #clean ep_list
+                        map_list = [(point[0],point[1]) for point in ep_list[k] if point[2] != 0]
+                        
+                        occurrences = {}
+                        for item in map_list:
+                            if item in occurrences:
+                                occurrences[item] += 1
+                            else:
+                                occurrences[item] = 1
+                        margin_point = [item for item in map_list if occurrences[item] == 1]
+                        #artificial points - make sure not the previous start point
+                        art_list = [(point[0],point[1],0) for point in margin_point
+                                    if point[0] != rp_list[k][-1][0] or point[1] != rp_list[k][-1][1]]
+                        #get empty space
+                        inverse_dems = [bin_d[k] - point for point in art_list]
+                        inverse_volumns = [dem[0]*dem[1]*dem[2] for dem in inverse_dems]
+                        edge_point = art_list[inverse_volumns.index(max(inverse_volumns))]
+                        #update ep_list and rp_list
+                        ep_list[k] = [edge_point]
+                        rp_list[k].append(edge_point)
+                        
+                        num -= 1
+                
             if indicator:
                 # next
                 i += 1

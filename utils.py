@@ -71,6 +71,6 @@ def read_3d(data_path:str) -> list:
     
 if __name__ == "__main__":
     '''random data'''
-    instance = random_3d(200,20)
+    instance = random_3d(80,4)
     '''write'''
-    write_instance(instance,'3d_runner/input/instance_3d_3.csv')
+    write_instance(instance,'3d_runner/input/instance_3d_2.csv')

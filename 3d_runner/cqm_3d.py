@@ -97,7 +97,7 @@ def cqm_solver(instance:str):
     sampler = LeapHybridCQMSampler()     
 
     sampleset = sampler.sample_cqm(cqm,
-                                   time_limit=30)
+                                   time_limit=900)
     sampleset.resolve()  
     feasible_sampleset = sampleset.filter(lambda row: row.is_feasible)  
     if len(feasible_sampleset):      
@@ -109,7 +109,7 @@ def cqm_solver(instance:str):
 
 if __name__ == "__main__":
     
-    instance = 'input/instance_3d_0.csv'
+    instance = 'input/instance_3d_3.csv'
     start_time = time.time()
     run_results = cqm_solver(instance)
     print("--- %s seconds ---" % (time.time() - start_time))

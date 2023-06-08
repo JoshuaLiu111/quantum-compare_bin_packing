@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['3d_runner\\cqm_3d.py', '3d_runner\\firstfit_3d_wr.py', '3d_runner\\bestfit_3d_wr.py', 'utils.py', '3d_runner\\glpk_3d.py']
+recent_files = ['3d_runner\\firstfit_3d_wr.py', '3d_runner\\bestfit_3d_wr.py', '3d_runner\\visualtool.py']
 
 [main]
 version = 0.2.0

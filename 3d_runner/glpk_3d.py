@@ -176,11 +176,11 @@ def cal_solution_cost(instance:pyo.AbstractModel):
 if __name__ == "__main__":
     '''run the formulation'''
     abstract_model = define_model()
-    data_path = "input/instance_3d_3.csv"
+    data_path = "input/instance_3d_1.csv"
     num_items, weights, item_d, num_bins, capacities, bin_d = read_3d(data_path)
     instance = abstract_model.create_instance({None: data_reader(data_path)})
 
-    opt = pyo.SolverFactory("glpk")
+    opt = pyo.SolverFactory("gurobi")
 
     opt.options["tmlim"] = 1000
     opt.options["mipgap"] = 0.00001
