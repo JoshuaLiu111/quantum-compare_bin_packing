@@ -24,14 +24,16 @@ def bf_solver(instance:str) -> list:
     used_cap = [0 for j in range(num_bins)]
     #extreme points
     ep_list = [[(0,0,0)] for _ in range(num_bins)]
+    #extreme points tracker
+    ep_list_tr = [[] for _ in range(num_bins)]
     #restart points
     rp_list = [[(0,0,0)] for _ in range(num_bins)]
     
-    '''rank by size'''
+    # Rank by size
     sorted_item_list = sorted(range(num_items), 
-                              key=lambda i: (np.prod(item_d[i]),
-                                             item_d[i][0],
-                                             item_d[i][1]), reverse=True)
+                              key=lambda i: (item_d[i][0],
+                                             item_d[i][1],
+                                             item_d[i][2]), reverse=True)
     '''init i & j'''
     i = 0
     j = 0
@@ -126,16 +128,23 @@ def bf_solver(instance:str) -> list:
                 else:
                     num += 1
                     if len(ep_list[k]) != 1:
+                        #keep track
+                        ep_list_tr[k] += ep_list[k]
+                        ep_list_tr[k] = list(set(ep_list_tr[k]))
+                        
                         #clean ep_list
                         map_list = [(point[0],point[1]) for point in ep_list[k] if point[2] != 0]
+                        map_list_tr = [(point[0],point[1]) for point in ep_list_tr[k] if point[2] != 0]
                         
                         occurrences = {}
-                        for item in map_list:
+                        for item in map_list_tr:
                             if item in occurrences:
                                 occurrences[item] += 1
                             else:
                                 occurrences[item] = 1
-                        margin_point = [item for item in map_list if occurrences[item] == 1]
+                        margin_point_tr = [item for item in map_list_tr if occurrences[item] == 1]
+                        #compare with old ep points
+                        margin_point = [point for point in map_list if point in margin_point_tr]
                         #artificial points - make sure not the previous start point
                         art_list = [(point[0],point[1],0) for point in margin_point
                                     if point[0] != rp_list[k][-1][0] or point[1] != rp_list[k][-1][1]]
@@ -162,7 +171,7 @@ def bf_solver(instance:str) -> list:
 
 if __name__ == "__main__":
     
-    instance = 'input/instance_3d_3.csv'
+    instance = 'input/instance_3d_4.csv'
     instance_code = int(instance.split('_')[-1].split('.')[0])
     start_time = time.time()
     sol_package,sol_pacposition = bf_solver(instance)

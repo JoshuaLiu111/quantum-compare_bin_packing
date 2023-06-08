@@ -6,7 +6,6 @@ Created on Fri May 19 14:44:55 2023
 """
 
 import time
-import numpy as np
 from utils import read_3d
 from visualtool import palletplot
 from animationtool import aniplot
@@ -19,13 +18,15 @@ def ff_solver(instance:str) -> list:
     used_cap = [0 for _ in range(num_bins)]
     #extreme points
     ep_list = [[(0,0,0)] for _ in range(num_bins)]
+    #extreme points tracker
+    ep_list_tr = [[] for _ in range(num_bins)]
     #restart points
     rp_list = [[(0,0,0)] for _ in range(num_bins)]
     # Rank by size
     sorted_item_list = sorted(range(num_items), 
-                              key=lambda i: (np.prod(item_d[i]),
-                                             item_d[i][0],
-                                             item_d[i][1]), reverse=True)
+                              key=lambda i: (item_d[i][0],
+                                             item_d[i][1],
+                                             item_d[i][2]), reverse=True)
 
     j = 0
 
@@ -124,16 +125,24 @@ def ff_solver(instance:str) -> list:
 
                 # Refresh ep list
                 if not indicator and len(ep_list[j]) != 1:
+                    #keep track
+                    ep_list_tr[j] += ep_list[j]
+                    ep_list_tr[j] = list(set(ep_list_tr[j]))
+                    
                     #clean ep_list
                     map_list = [(point[0],point[1]) for point in ep_list[j] if point[2] != 0]
+                    map_list_tr = [(point[0],point[1]) for point in ep_list_tr[j] if point[2] != 0]
                     
                     occurrences = {}
-                    for item in map_list:
+                    for item in map_list_tr:
                         if item in occurrences:
                             occurrences[item] += 1
                         else:
                             occurrences[item] = 1
-                    margin_point = [item for item in map_list if occurrences[item] == 1]
+                    margin_point_tr = [item for item in map_list_tr if occurrences[item] == 1]
+                    #compare with old ep points
+                    margin_point = [point for point in map_list if point in margin_point_tr]
+                    
                     #artificial points - make sure not the previous start point
                     art_list = [(point[0],point[1],0) for point in margin_point
                                 if point[0] != rp_list[j][-1][0] or point[1] != rp_list[j][-1][1]]
@@ -142,6 +151,7 @@ def ff_solver(instance:str) -> list:
                     inverse_volumns = [dem[0]*dem[1]*dem[2] for dem in inverse_dems]
                     edge_point = art_list[inverse_volumns.index(max(inverse_volumns))]
                     #update ep_list and rp_list
+                    
                     ep_list[j] = [edge_point]
                     rp_list[j].append(edge_point)
                     
@@ -157,7 +167,7 @@ def ff_solver(instance:str) -> list:
 
 if __name__ == "__main__":
     
-    instance = 'input/instance_3d_3.csv'
+    instance = 'input/instance_3d_4.csv'
     instance_code = int(instance.split('_')[-1].split('.')[0])
     start_time = time.time()
     sol_package,sol_pacposition = ff_solver(instance)

@@ -40,10 +40,10 @@ def read_instance(data_path:str) -> list:
 '''random 3d'''
 def random_3d(num_items:int, num_bins:int) -> dict:
     '''set para'''
-    item_weight_range = [3,6]
+    item_weight_range = [2,4]
     bin_capacity_range = [80,100]
-    item_dimension_range = [2,4]
-    bin_dimension_range = [7,10]
+    item_dimension_range = [1,5]
+    bin_dimension_range = [8,10]
     weights = list(np.random.randint(*item_weight_range, num_items))
     capacities = list(np.random.randint(*bin_capacity_range, num_bins))
     item_d = np.array_split(np.random.randint(*item_dimension_range, 3*num_items), num_items)
@@ -71,6 +71,6 @@ def read_3d(data_path:str) -> list:
     
 if __name__ == "__main__":
     '''random data'''
-    instance = random_3d(80,4)
+    instance = random_3d(100,6)
     '''write'''
-    write_instance(instance,'3d_runner/input/instance_3d_2.csv')
+    write_instance(instance,'3d_runner/input/instance_3d_4.csv')
